@@ -32,19 +32,34 @@ def toCSV(data):
 	csvData.close()
 
 def get_last_row(csv_filename):
-    with open(csv_filename, 'r') as f:
-        try:
-            lastrow = deque(csv.reader(f), 1)[0]
-        except IndexError:  # empty file
-            lastrow = None
-        return lastrow
+	with open(csv_filename, 'r') as f:
+		try:
+			lastrow = deque(csv.reader(f), 1)[0]
+		except IndexError:  # empty file
+			lastrow = None
+		return lastrow
+
+# Analyze monitor data. First attempt: just check for any status that does not = 1 
+def scanCSV(csv_filename):
+	downNumber = 0
+	with open(csv_filename, 'r') as f:
+		try:
+			reader = csv.reader(f)
+			next(reader)
+			for r in reader:
+				if r[0] != '1':
+					downNumber+=1
+				print(r[0])
+		except IndexError: # empty file
+			downNumber = 0
+		return downNumber
 
 def tweetStatus(data):
 	Twitter = Twython(
 		consumer_key,
-        consumer_secret,
-        access_token_key,
-        access_token_secret)
+		consumer_secret,
+		access_token_key,
+		access_token_secret)
 
 	Twitter.update_status(status=data['message'])
 	print(data['message'])
@@ -73,7 +88,9 @@ if oldTimestamp!=data['timestamp']:
 	toCSV(data)
 	print "New data detected for %s...\nUploading..." %time.ctime(int(data['timestamp']))
 	print json.dumps(data, indent=4, sort_keys=True)
-	tweetStatus(data)
+	#tweetStatus(data)
 else:
 	print "Status has not changed since: %s" %time.ctime(int(oldTimestamp))
+
+print("Number of times the PRT was not operating normally: %s" %scanCSV('monitor.csv'))
 # ********************************** END **********************************
