@@ -1,5 +1,5 @@
 # PRT-Monitor
-Bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
+Bot written in Python that uses [Twython](https://github.com/ryanmcgrath/twython) and JSON to compile data on WVU's PRT Status.
 
 ## Details:
 Currently, I have PRT Monitor running on a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) in headless mode. 
