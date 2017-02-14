@@ -61,9 +61,9 @@ def tweetStatus(data):
 		access_token_key,
 		access_token_secret)
 
-	mess = data['message']														# Message raw
-	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 	# Message string
-	message_f = "%s." %message_s.split(".", 1)[0] 								# Message formatted
+	mess = data['message']																	# Message raw
+	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 				# Message string
+	message_f = "%s (%s)." %(message_s.split(".", 1)[0], time.ctime(int(data['timestamp']))) # Message formatted
 
 	Twitter.update_status(status=message_f)
 	print(message_f)
