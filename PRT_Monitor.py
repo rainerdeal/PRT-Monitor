@@ -1,5 +1,8 @@
-# PRT Monitor v1.0
-# by Ricky
+''' 
+	PRT Monitor
+	A bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
+	Copyright 2017, Ricky Deal, All rights reserved.
+'''
 
 import time, urllib, json, csv, os, unicodedata
 from collections import deque
