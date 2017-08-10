@@ -15,6 +15,8 @@ from auth import (
 
 # Convert JSON to CSV and save it
 def toCSV(data):
+
+	# if CSV file exists then just write to it
 	if os.path.isfile('monitor.csv') == True:
 		csvData = open('monitor.csv', 'a')
 	
@@ -22,6 +24,8 @@ def toCSV(data):
 		csvWriter = csv.writer(csvData)
 
 		csvWriter.writerow(data.values())
+	
+	# else create the CSV file first, then write to it
 	else:
 		csvData = open('monitor.csv', 'a')
 	
@@ -33,6 +37,7 @@ def toCSV(data):
 	
 	csvData.close()
 
+# Returns last status recorded in the CSV file.
 def get_last_row(csv_filename):
 	with open(csv_filename, 'r') as f:
 		try:
@@ -41,22 +46,7 @@ def get_last_row(csv_filename):
 			lastrow = None
 		return lastrow
 
-# Analyze monitor data. First attempt: just check for any status that does not = 1, 6, or 7
-def scanCSV(csv_filename):
-	downNumber = 0
-	with open(csv_filename, 'r') as f:
-		try:
-			reader = csv.reader(f)
-			next(reader)
-			for r in reader:
-				if (r[0] != '1') or (r[0] != '6') or (r[0] != '7'):
-					downNumber+=1
-				#print(r[0])
-		except IndexError: # empty file
-			downNumber = 0
-		return downNumber
-
-# Tweet status (Note: Only tweets first sentence).
+# Tweet status (Note: Only tweets first sentence of data[message]).
 def tweetStatus(data):
 	Twitter = Twython(
 		consumer_key,
@@ -64,14 +54,15 @@ def tweetStatus(data):
 		access_token_key,
 		access_token_secret)
 
-	mess = data['message']																	# Message raw
-	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 				# Message string
-	message_f = "%s (%s)." %(message_s.split(".", 1)[0], time.ctime(int(data['timestamp']))) # Message formatted
+	mess = data['message']																					# Message raw
+	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 								# Message string
+	message_f = "%s (%s). #wvuprt #wvu" %(message_s.split(".", 1)[0], time.ctime(int(data['timestamp'])))	# Message formatted
 
 	Twitter.update_status(status=message_f)
 	print(message_f)
 	
 # ********************************* START *********************************
+
 oldTimestamp = ""
 timestamp = int(time.time())
 url = "http://prtstatus.wvu.edu/api/%s/?format=json" %timestamp
@@ -93,6 +84,5 @@ if oldTimestamp!=data['timestamp']:
 else:
 	print "Status has not changed since: %s" %time.ctime(int(oldTimestamp))
 
-#print("Number of times the PRT was not operating normally: %s" %scanCSV('monitor.csv'))
 # ********************************** END **********************************
 
