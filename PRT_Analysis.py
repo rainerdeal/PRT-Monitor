@@ -67,9 +67,10 @@ Twitter = Twython(
 	access_token_key,
 	access_token_secret)
 
-message_f = "The PRT has gone down %s times this semester. \nThe total time the PRT was down is %s hours." %(calcDownFrequency('monitor.csv'), calcDownTime('monitor.csv'))
+message_f = ("The PRT has gone down %s times this semester."
+		   "\nThe total time the PRT was down is %s hours." %(calcDownFrequency('monitor.csv'), calcDownTime('monitor.csv')))
 
-Twitter.update_status(status=message_f)
+#Twitter.update_status(status=message_f)
 print(message_f)
 
 # ********************************** END **********************************
