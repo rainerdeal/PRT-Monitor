@@ -1,5 +1,5 @@
 ''' 
-	PRT Prediction
+	PRT_Prediction
 	A bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
 	Copyright 2017, Ricky Deal, All rights reserved.
 '''
@@ -117,9 +117,9 @@ message2 = ("The PRT has gone down %s times before 10:30am."
 		  "\nThe PRT has gone down %s times after 6:30pm." %calcDownFrequencyByTime('monitor.csv'))
 
 #Twitter.update_status(status=message_f)
-#print(message)
-#print""
-#print(message2)
+print(message)
+print""
+print(message2)
 
 #timeToCSV('monitor.csv')
 
