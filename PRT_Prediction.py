@@ -1,10 +1,11 @@
 ''' 
-	PRT_Prediction
-	A bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
+	PRT Prediction
+	
+	Attempts to predict when PRT breakdowns are most likely to occur.
 	Copyright 2017, Ricky Deal, All rights reserved.
 '''
 
-import csv, time, os, csv
+import csv, time, os, csv, pandas
 from twython import Twython
 from auth import (
 	consumer_key,

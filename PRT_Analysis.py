@@ -1,6 +1,7 @@
 ''' 
 	PRT Analysis
-	A bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
+	
+	Weekly statistics calculated based on the data collected by PRT_Monitor
 	Copyright 2017, Ricky Deal, All rights reserved.
 '''
 
@@ -59,6 +60,38 @@ def calcDownTime(csv_filename):
 	totalDownTime = (totalDownTime/60)/60
 	return totalDownTime
 
+# Analyze monitor data. Try to calculate total time PRT was up
+def calcUpTime(csv_filename):
+	totalUpTime = 0
+	data = []
+
+	# Save any entries that are not "closed" to list
+	with open(csv_filename, 'r') as f:
+		try:
+			reader = csv.reader(f)
+			next(reader)
+			for r in reader:
+				if (r[0]!='6') and (r[0]!='7'):
+					data.append(r)
+		except IndexError: # empty file
+			print "monitor.csv is empty."
+
+	# Calculate time
+	upFlag = False
+	lastUpTime = 0
+	lastDownTime = 0
+	
+	for x in data:
+		if upFlag==False and x[0]=='1':
+			upFlag = True
+			lastUpTime = x[2]
+		elif upFlag==True and ((x[0]=='2') or (x[0]=='3') or (x[0]=='4') or (x[0]=='5') or (x[0]=='8')):
+			upFlag = False
+			lastDownTime = x[2]
+			totalUpTime+=(int(lastDownTime)-int(lastUpTime))
+	totalUpTime = (totalUpTime/60)/60
+	return totalUpTime
+
 # ********************************* START *********************************
 
 Twitter = Twython(
@@ -67,11 +100,13 @@ Twitter = Twython(
 	access_token_key,
 	access_token_secret)
 
-message_f = ("The PRT has gone down %s times this semester."
-		   "\nThe total time the PRT was down is %s hours." %(calcDownFrequency('monitor.csv'), calcDownTime('monitor.csv')))
+#percentUpTime = float(calcUpTime('monitor.csv')/calcDownTime('monitor.csv'))
+
+#message_f = ("Breakdowns: %s\nUptime: %s%" %(calcDownFrequency('monitor.csv'), percentUpTime))
 
 #Twitter.update_status(status=message_f)
-print(message_f)
+#print(percentUpTime)
+print(float(calcUpTime('monitor.csv')/calcDownTime('monitor.csv')))
 
 # ********************************** END **********************************
 
