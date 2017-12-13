@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-''' 
-	PRT Analysis
+''' PRT Analysis
 	
 	Weekly statistics calculated based on the data collected by PRT_Monitor
 	Copyright 2017, Ricky Deal, All rights reserved.
@@ -120,9 +119,9 @@ Twitter = Twython(
 	access_token_key,
 	access_token_secret)
 
-downFrequency = down_frequency('monitor.csv')
-upTime = up_time('monitor.csv')
-downTime = down_time('monitor.csv')
+downFrequency = down_frequency('Feb_to_May_2017.csv')
+upTime = up_time('Feb_to_May_2017.csv')
+downTime = down_time('Feb_to_May_2017.csv')
 percentUpTime = percent_up_time(upTime, downTime)
 
 part0 = "🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"

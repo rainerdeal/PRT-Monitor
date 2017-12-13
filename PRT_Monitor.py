@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-''' 
-	PRT Monitor
-	
+''' PRT Monitor
+
 	A bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
 	Copyright 2017, Ricky Deal, All rights reserved.
 '''
@@ -62,21 +61,21 @@ def tweetStatus(data):
 		access_token_secret)
 
 	# Choose an emoji based on the 'status'
-	if data['status'] == '1':	 	# Normal
+	if data['status'] == '1':		# Normal
 		e = '🙌'
-	elif data['status'] == '2': 	# Down between 2 stations
+	elif data['status'] == '2':		# Down between 2 stations
 		e = '💩'
-	elif data['status'] == '3': 	# Down at all stations
+	elif data['status'] == '3':		# Down at all stations
 		e = '🔥'
-	elif data['status'] == '4': 	# ??
+	elif data['status'] == '4':		# ??
 		e = '👻'
-	elif data['status'] == '5': 	# Down at 1 station
+	elif data['status'] == '5':		# Down at 1 station
 		e = '💩'
 	elif data['status'] == '6':		# Closed on Sunday
 		e = '😴'
-	elif data['status'] == '7': 	# Closed
+	elif data['status'] == '7':		# Closed
 		e = '😴'
-	elif data['status'] == '8': 	# Down at 3 stations
+	elif data['status'] == '8':		# Down at 3 stations
 		e = '💩'
 
 	mess = data['message']																						# Message raw
