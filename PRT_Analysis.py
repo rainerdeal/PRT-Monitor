@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ''' 
 	PRT Analysis
 	
@@ -5,7 +6,7 @@
 	Copyright 2017, Ricky Deal, All rights reserved.
 '''
 
-import csv, time, emoji
+import csv, time
 from twython import Twython
 from auth import (
 	consumer_key,
@@ -124,9 +125,9 @@ upTime = up_time('monitor.csv')
 downTime = down_time('monitor.csv')
 percentUpTime = percent_up_time(upTime, downTime)
 
-part0 = emoji.emojize(':sparkles::sparkles::sparkles::sparkles:  PRT Stats :sparkles::sparkles::sparkles::sparkles:')
+part0 = "🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"
 part1 = "\n  Breakdowns: %sx\n  Uptime:   %s%%" %(downFrequency, percentUpTime)
-part2 = emoji.emojize('\n  #WVUPRT #WVU #:bar_chart:')
+part2 = "\n  #WVUPRT #WVU #📊"
 
 message_f = (part0 + part1 + part2)
 #print(message_f)

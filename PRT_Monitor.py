@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ''' 
 	PRT Monitor
 	
@@ -60,9 +61,27 @@ def tweetStatus(data):
 		access_token_key,
 		access_token_secret)
 
-	mess = data['message']																					# Message raw
-	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 								# Message string
-	message_f = "%s (%s). #wvuprt #wvu" %(message_s.split(".", 1)[0], time.ctime(int(data['timestamp'])))	# Message formatted
+	# Choose an emoji based on the 'status'
+	if data['status'] == '1':	 	# Normal
+		e = '🙌'
+	elif data['status'] == '2': 	# Down between 2 stations
+		e = '💩'
+	elif data['status'] == '3': 	# Down at all stations
+		e = '🔥'
+	elif data['status'] == '4': 	# ??
+		e = '👻'
+	elif data['status'] == '5': 	# Down at 1 station
+		e = '💩'
+	elif data['status'] == '6':		# Closed on Sunday
+		e = '😴'
+	elif data['status'] == '7': 	# Closed
+		e = '😴'
+	elif data['status'] == '8': 	# Down at 3 stations
+		e = '💩'
+
+	mess = data['message']																						# Message raw
+	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 									# Message string
+	message_f = "%s%s (%s). #wvuprt #wvu" %(message_s.split(".", 1)[0], e, time.ctime(int(data['timestamp'])))	# Message formatted
 
 	Twitter.update_status(status=message_f)
 	#print(message_f)
