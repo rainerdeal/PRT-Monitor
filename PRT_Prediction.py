@@ -13,9 +13,13 @@ from auth import (
 	access_token_key,
 	access_token_secret)
 
-# Analyze monitor data. Check for any status that = 2, 3, 5, or 8
-# returns total number of times the PRT went down for any week day
+""" Returns mondayDownFrequency, tuesdayDownFrequency, wednesdayDownFrequency, thursdayDownFrequency, fridayDownFrequency, saturdayDownFrequency
+	
+	Parse 'monitor.csv' and record any offline status.
+	Returns total number of times the PRT went down for any week day.
+""" 
 def calcDownFrequencyByDay(csv_filename):
+	
 	(mondayDownFrequency, tuesdayDownFrequency, wednesdayDownFrequency, 
 	thursdayDownFrequency, fridayDownFrequency, saturdayDownFrequency) = (0, 0, 0, 0, 0, 0)
 	with open(csv_filename, 'r') as f:
@@ -41,7 +45,13 @@ def calcDownFrequencyByDay(csv_filename):
 			thursdayDownFrequency, fridayDownFrequency, saturdayDownFrequency) = (0, 0, 0, 0, 0, 0)
 		return mondayDownFrequency, tuesdayDownFrequency, wednesdayDownFrequency, thursdayDownFrequency, fridayDownFrequency, saturdayDownFrequency
 
+"""	Returns earlyDownFrequency, middayDownFrequency, afternoonDownFrequency, eveningDownFrequency
+	
+	Parse 'monitor.csv' and record and offline status.
+	Returns total number of times the PRT went down for certain time intervals of ~4 hours.
+"""
 def calcDownFrequencyByTime(csv_filename):
+	
 	(earlyDownFrequency, middayDownFrequency, afternoonDownFrequency, eveningDownFrequency) = (0, 0, 0, 0)
 	with open(csv_filename, 'r') as f:
 		try:
@@ -64,7 +74,12 @@ def calcDownFrequencyByTime(csv_filename):
 			(earlyDownFrequency, middayDownFrequency, afternoonDownFrequency, eveningDownFrequency) = (0, 0, 0, 0)
 		return earlyDownFrequency, middayDownFrequency, afternoonDownFrequency, eveningDownFrequency
 
+"""	Don't remember...
+	
+	This is why you comment your code... *sigh*
+"""
 def timeToCSV(csv_filename):
+	
 	data = ["filler"]
 	with open(csv_filename, 'r') as f:
 		reader = csv.reader(f)
@@ -73,28 +88,20 @@ def timeToCSV(csv_filename):
 			if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'): 
 				rowSplit = time.ctime(int(r[2])).split(" ")
 				justTime = rowSplit[-2].replace(':','')
-
 				data.append(justTime)
 				
 	# if CSV file exists then just write to it
-	if os.path.isfile('downTime.csv') == True:
+	if os.path.isfile('downTime.csv') == True:	
 		csvData = open('downTime.csv', 'a')
-	
-		# Create the CSV writer object
-		csvWriter = csv.writer(csvData)
-
+		csvWriter = csv.writer(csvData)		# Create the CSV writer object
 		csvWriter.writerow(data)
 	
 	# else create the CSV file first, then write to it
 	else:
 		csvData = open('downTime.csv', 'a')
-	
-		# Create the CSV writer object
-		csvWriter = csv.writer(csvData)
-	
+		csvWriter = csv.writer(csvData)		# Create the CSV writer object
 		csvWriter.writerow("TIME")
 		csvWriter.writerow(data)
-	
 	csvData.close()
 
 # ********************************* START *********************************

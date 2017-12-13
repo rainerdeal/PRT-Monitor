@@ -14,41 +14,46 @@ from auth import (
 	access_token_key,
 	access_token_secret)
 
-# Convert JSON to CSV and save it
+"""	Creates and updates the CSV file
+	
+	Converts the JSON data to CSV and saves it to 'monitor.csv'
+"""
 def toCSV(data):
 
 	# if CSV file exists then just write to it
 	if os.path.isfile('monitor.csv') == True:
 		csvData = open('monitor.csv', 'a')
-	
-		# Create the CSV writer object
-		csvWriter = csv.writer(csvData)
-
+		csvWriter = csv.writer(csvData)		# Create the CSV writer object
 		csvWriter.writerow(data.values())
 	
 	# else create the CSV file first, then write to it
 	else:
 		csvData = open('monitor.csv', 'a')
-	
-		# Create the CSV writer object
-		csvWriter = csv.writer(csvData)
-	
+		csvWriter = csv.writer(csvData)		# Create the CSV writer object
 		csvWriter.writerow(data.keys())
 		csvWriter.writerow(data.values())
-	
 	csvData.close()
 
-# Returns last status recorded in the CSV file.
-def get_last_row(csv_filename):
+"""	Returns lastRow
+	
+	Return the last status recorded in 'monitor.csv'
+"""
+def _get_last_row(csv_filename):
+	
 	with open(csv_filename, 'r') as f:
 		try:
-			lastrow = deque(csv.reader(f), 1)[0]
+			lastRow = deque(csv.reader(f), 1)[0]
 		except IndexError:  # empty file
-			lastrow = None
-		return lastrow
+			lastRow = None
+		return lastRow
 
-# Tweet status (Note: Only tweets first sentence of data[message]).
+"""	Tweet the PRT Status
+	
+	Formats the tweet in a user friendly way and tweets.
+	(note: Only tweets first sentence of data[message].)
+"""
 def tweetStatus(data):
+	
 	Twitter = Twython(
 		consumer_key,
 		consumer_secret,
@@ -60,7 +65,7 @@ def tweetStatus(data):
 	message_f = "%s (%s). #wvuprt #wvu" %(message_s.split(".", 1)[0], time.ctime(int(data['timestamp'])))	# Message formatted
 
 	Twitter.update_status(status=message_f)
-	print(message_f)
+	#print(message_f)
 	
 # ********************************* START *********************************
 
@@ -73,7 +78,7 @@ response = urllib.urlopen(url)
 data = json.load(response)
 
 try:
-	oldTimestamp = get_last_row('monitor.csv')[2]
+	oldTimestamp = _get_last_row('monitor.csv')[2]
 except IOError:
 	print "monitor.csv is empty."
 

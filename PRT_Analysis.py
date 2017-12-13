@@ -5,7 +5,7 @@
 	Copyright 2017, Ricky Deal, All rights reserved.
 '''
 
-import csv, time
+import csv, time, emoji
 from twython import Twython
 from auth import (
 	consumer_key,
@@ -13,9 +13,12 @@ from auth import (
 	access_token_key,
 	access_token_secret)
 
-# Analyze monitor data. Check for any status that does not = 1, 6, or 7
-# returns total number of times the PRT went down
-def calcDownFrequency(csv_filename):
+"""	Returns downFrequency
+	
+	Parse 'monitor.csv' and find all entries that are not Normal(1) or Closed(6 & 7)
+"""
+def down_frequency(csv_filename):
+	
 	downFrequency = 0
 	with open(csv_filename, 'r') as f:
 		try:
@@ -24,13 +27,16 @@ def calcDownFrequency(csv_filename):
 			for r in reader:
 				if (r[0] != '1') and (r[0] != '6') and (r[0] != '7'): 
 					downFrequency+=1
-					#print(r[0])
 		except IndexError: # empty file
 			downFrequency = 0
 		return downFrequency
 
-# Analyze monitor data. Try to calculate total time PRT was down
-def calcDownTime(csv_filename):
+""" Returns totalDownTime
+	
+	Parse 'monitor.csv' and find total time PRT was out of service.
+"""
+def down_time(csv_filename):
+	
 	totalDownTime = 0
 	data = []
 
@@ -60,8 +66,12 @@ def calcDownTime(csv_filename):
 	totalDownTime = (totalDownTime/60)/60
 	return totalDownTime
 
-# Analyze monitor data. Try to calculate total time PRT was up
-def calcUpTime(csv_filename):
+""" Returns totalUpTime
+	
+	Parse 'monitor.csv' and find total time PRT was in service.
+"""
+def up_time(csv_filename):
+	
 	totalUpTime = 0
 	data = []
 
@@ -71,8 +81,7 @@ def calcUpTime(csv_filename):
 			reader = csv.reader(f)
 			next(reader)
 			for r in reader:
-				if (r[0]!='6') and (r[0]!='7'):
-					data.append(r)
+				data.append(r)
 		except IndexError: # empty file
 			print "monitor.csv is empty."
 
@@ -80,17 +89,27 @@ def calcUpTime(csv_filename):
 	upFlag = False
 	lastUpTime = 0
 	lastDownTime = 0
-	
 	for x in data:
 		if upFlag==False and x[0]=='1':
 			upFlag = True
 			lastUpTime = x[2]
-		elif upFlag==True and ((x[0]=='2') or (x[0]=='3') or (x[0]=='4') or (x[0]=='5') or (x[0]=='8')):
+		elif upFlag==True and ((x[0]=='2') or (x[0]=='3') or (x[0]=='4') or (x[0]=='5') or (x[0]=='6') or (x[0]=='7') or (x[0]=='8')):
 			upFlag = False
 			lastDownTime = x[2]
 			totalUpTime+=(int(lastDownTime)-int(lastUpTime))
 	totalUpTime = (totalUpTime/60)/60
 	return totalUpTime
+
+"""	Returns percentUpTime
+	
+	Calculate percentage of time the PRT was operating normally
+	(note: does not include hours the PRT was Closed.)
+"""
+def percent_up_time(totalUpTime, totalDownTime):
+
+	totalTime = float(totalUpTime+totalDownTime)
+	percentUpTime = (totalUpTime/totalTime)*100
+	return round(percentUpTime, 2)
 
 # ********************************* START *********************************
 
@@ -100,13 +119,18 @@ Twitter = Twython(
 	access_token_key,
 	access_token_secret)
 
-#percentUpTime = float(calcUpTime('monitor.csv')/calcDownTime('monitor.csv'))
+downFrequency = down_frequency('monitor.csv')
+upTime = up_time('monitor.csv')
+downTime = down_time('monitor.csv')
+percentUpTime = percent_up_time(upTime, downTime)
 
-#message_f = ("Breakdowns: %s\nUptime: %s%" %(calcDownFrequency('monitor.csv'), percentUpTime))
+part0 = emoji.emojize(':sparkles::sparkles::sparkles::sparkles:  PRT Stats :sparkles::sparkles::sparkles::sparkles:')
+part1 = "\n    Breakdowns: %s\n    Uptime: %s%%" %(downFrequency, percentUpTime)
+part2 = emoji.emojize('\n#WVUPRT #WVU #:cookie:')
 
+message_f = (part0 + part1 + part2)
+print(message_f)
 #Twitter.update_status(status=message_f)
-#print(percentUpTime)
-print(float(calcUpTime('monitor.csv')/calcDownTime('monitor.csv')))
 
 # ********************************** END **********************************
 
