@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-''' PRT Analysis
+"""	PRT Analysis
 	
 	Weekly statistics calculated based on the data collected by PRT_Monitor
 	Copyright 2017, Ricky Deal, All rights reserved.
-'''
+"""
 
 import csv, time
 from twython import Twython

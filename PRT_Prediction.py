@@ -1,9 +1,8 @@
-''' 
-	PRT Prediction
+"""	PRT Prediction
 	
 	Attempts to predict when PRT breakdowns are most likely to occur.
 	Copyright 2017, Ricky Deal, All rights reserved.
-'''
+"""
 
 import csv, time, os, csv, pandas
 from twython import Twython
@@ -27,7 +26,7 @@ def calcDownFrequencyByDay(csv_filename):
 			reader = csv.reader(f)
 			next(reader)
 			for r in reader:
-				if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'): 
+				if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'):
 					if time.ctime(int(r[2])).startswith('Mon'):
 						mondayDownFrequency+=1
 					elif time.ctime(int(r[2])).startswith('Tue'):
@@ -93,13 +92,13 @@ def timeToCSV(csv_filename):
 	# if CSV file exists then just write to it
 	if os.path.isfile('downTime.csv') == True:	
 		csvData = open('downTime.csv', 'a')
-		csvWriter = csv.writer(csvData)		# Create the CSV writer object
+		csvWriter = csv.writer(csvData)	# Create the CSV writer object
 		csvWriter.writerow(data)
 	
 	# else create the CSV file first, then write to it
 	else:
 		csvData = open('downTime.csv', 'a')
-		csvWriter = csv.writer(csvData)		# Create the CSV writer object
+		csvWriter = csv.writer(csvData)	# Create the CSV writer object
 		csvWriter.writerow("TIME")
 		csvWriter.writerow(data)
 	csvData.close()
