@@ -25,7 +25,7 @@ def down_frequency(csv_filename):
 			reader = csv.reader(f)
 			next(reader)
 			for r in reader:
-				if (r[0] != '1') and (r[0] != '6') and (r[0] != '7'): 
+				if (r[0] != '1') and (r[0] != '6') and (r[0] != '7'):
 					downFrequency+=1
 		except IndexError: # empty file
 			downFrequency = 0
@@ -119,9 +119,9 @@ Twitter = Twython(
 	access_token_key,
 	access_token_secret)
 
-downFrequency = down_frequency('Feb_to_May_2017.csv')
-upTime = up_time('Feb_to_May_2017.csv')
-downTime = down_time('Feb_to_May_2017.csv')
+downFrequency = down_frequency('monitor.csv')
+upTime = up_time('monitor.csv')
+downTime = down_time('monitor.csv')
 percentUpTime = percent_up_time(upTime, downTime)
 
 at = "@WVUDOT"
@@ -129,7 +129,7 @@ part0 = "\n🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"
 part1 = "\n  Breakdowns: %sx\n  Uptime:   %s%%" %(downFrequency, percentUpTime)
 part2 = "\n#wvuprt #wvu #prt #📊"
 
-message_f = (at+ part0 + part1 + part2)
+message_f = (at + part0 + part1 + part2)
 #print(message_f)
 Twitter.update_status(status=message_f)
 

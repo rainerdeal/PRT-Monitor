@@ -58,7 +58,7 @@ def calcDownFrequencyByTime(csv_filename):
 			reader = csv.reader(f)
 			next(reader)
 			for r in reader:
-				if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'): 
+				if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'):
 					rowSplit = time.ctime(int(r[2])).split(" ")
 					justTime = rowSplit[-2].replace(':','')
 					
@@ -85,7 +85,7 @@ def timeToCSV(csv_filename):
 		reader = csv.reader(f)
 		next(reader)
 		for r in reader:
-			if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'): 
+			if (r[0] == '2') or (r[0] == '3') or (r[0] == '5') or (r[0] == '8'):
 				rowSplit = time.ctime(int(r[2])).split(" ")
 				justTime = rowSplit[-2].replace(':','')
 				data.append(justTime)
