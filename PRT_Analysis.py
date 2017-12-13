@@ -125,12 +125,12 @@ downTime = down_time('monitor.csv')
 percentUpTime = percent_up_time(upTime, downTime)
 
 part0 = emoji.emojize(':sparkles::sparkles::sparkles::sparkles:  PRT Stats :sparkles::sparkles::sparkles::sparkles:')
-part1 = "\n    Breakdowns: %s\n    Uptime: %s%%" %(downFrequency, percentUpTime)
-part2 = emoji.emojize('\n#WVUPRT #WVU #:cookie:')
+part1 = "\n  Breakdowns: %sx\n  Uptime:   %s%%" %(downFrequency, percentUpTime)
+part2 = emoji.emojize('\n  #WVUPRT #WVU #:bar_chart:')
 
 message_f = (part0 + part1 + part2)
-print(message_f)
-#Twitter.update_status(status=message_f)
+#print(message_f)
+Twitter.update_status(status=message_f)
 
 # ********************************** END **********************************
 
