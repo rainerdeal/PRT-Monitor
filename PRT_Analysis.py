@@ -124,11 +124,12 @@ upTime = up_time('Feb_to_May_2017.csv')
 downTime = down_time('Feb_to_May_2017.csv')
 percentUpTime = percent_up_time(upTime, downTime)
 
-part0 = "🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"
+at = "@WVUDOT"
+part0 = "\n🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"
 part1 = "\n  Breakdowns: %sx\n  Uptime:   %s%%" %(downFrequency, percentUpTime)
-part2 = "\n  #WVUPRT #WVU #📊"
+part2 = "\n#wvuprt #wvu #prt #📊"
 
-message_f = (part0 + part1 + part2)
+message_f = (at+ part0 + part1 + part2)
 #print(message_f)
 Twitter.update_status(status=message_f)
 

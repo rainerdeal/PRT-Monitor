@@ -80,7 +80,7 @@ def tweetStatus(data):
 
 	mess = data['message']																						# Message raw
 	message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore') 									# Message string
-	message_f = "%s%s (%s). #wvuprt #wvu" %(message_s.split(".", 1)[0], e, time.ctime(int(data['timestamp'])))	# Message formatted
+	message_f = "%s%s (%s). #wvuprt #wvu #prt" %(message_s.split(".", 1)[0], e, time.ctime(int(data['timestamp'])))	# Message formatted
 
 	Twitter.update_status(status=message_f)
 	#print(message_f)
