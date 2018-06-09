@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ PRT Prediction
     
     Attempts to predict when PRT breakdowns are most likely to occur.

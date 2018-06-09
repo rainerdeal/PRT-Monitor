@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ PRT Analysis
-    
+
     Weekly statistics calculated based on the data collected by PRT_Monitor
     Copyright 2017, Ricky Deal, All rights reserved.
 """
@@ -14,11 +14,11 @@ from auth import (
     access_token_secret)
 
 """ Returns downFrequency
-    
+
     Parse 'monitor.csv' and find all entries that are not Normal(1) or Closed(6 & 7)
 """
 def down_frequency(csv_filename):
-    
+
     downFrequency = 0
     with open(csv_filename, 'r') as f:
         try:
@@ -32,11 +32,11 @@ def down_frequency(csv_filename):
         return downFrequency
 
 """ Returns totalDownTime
-    
+
     Parse 'monitor.csv' and find total time PRT was out of service.
 """
 def down_time(csv_filename):
-    
+
     totalDownTime = 0
     data = []
 
@@ -67,11 +67,11 @@ def down_time(csv_filename):
     return totalDownTime
 
 """ Returns totalUpTime
-    
+
     Parse 'monitor.csv' and find total time PRT was in service.
 """
 def up_time(csv_filename):
-    
+
     totalUpTime = 0
     data = []
 
@@ -101,7 +101,7 @@ def up_time(csv_filename):
     return totalUpTime
 
 """ Returns percentUpTime
-    
+
     Calculate percentage of time the PRT was operating normally
     (note: does not include hours the PRT was Closed.)
 """
@@ -124,14 +124,15 @@ upTime = up_time('monitor.csv')
 downTime = down_time('monitor.csv')
 percentUpTime = percent_up_time(upTime, downTime)
 
-at = "@WVUDOT @gordongee"
-part0 = "\n🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"
-part1 = "\n  Breakdowns: %sx\n  Uptime:    %s%%" %(downFrequency, percentUpTime)
-part2 = "\n#wvuprt #wvu #prt #📊"
+part0 = "🌟🌟🌟🌟 PRT Stats 🌟🌟🌟🌟"
+part1 = "\n  Breakdowns: %sx\n  Uptime:   %s%%" %(downFrequency, percentUpTime)
+part2 = "\n#wvuprt #wvu #prt"
+#at    = "\n@WVUDOT @gordongee"
 
-message_f = (part0 + part1 + part2 + at)
-#print(message_f)
-Twitter.update_status(status=message_f)
+message_f = (part0 + part1 + part2)
+
+#Twitter.update_status(status=message_f)
+print(message_f)
 
 # ********************************** END **********************************
 

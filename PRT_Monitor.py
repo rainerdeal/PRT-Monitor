@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """ PRT Monitor
 
-    A bot written in Python that uses Twython and JSON to compile data on WVU's PRT Status.
+    Twitter bot 🤖 written in Python 🐍 that monitors WVU's PRT.
     Copyright 2017, Ricky Deal, All rights reserved.
 """
 
@@ -15,7 +15,7 @@ from auth import (
     access_token_secret)
 
 """ Creates and updates the CSV file
-    
+
     Converts the JSON data to CSV and saves it to 'monitor.csv'
 """
 def toCSV(data):
@@ -25,7 +25,7 @@ def toCSV(data):
         csvData = open('monitor.csv', 'a')
         csvWriter = csv.writer(csvData) # Create the CSV writer object
         csvWriter.writerow(data.values())
-    
+
     # else create the CSV file first, then write to it
     else:
         csvData = open('monitor.csv', 'a')
@@ -35,11 +35,11 @@ def toCSV(data):
     csvData.close()
 
 """ Returns lastRow
-    
+
     Return the last status recorded in 'monitor.csv'
 """
 def _get_last_row(csv_filename):
-    
+
     with open(csv_filename, 'r') as f:
         try:
             lastRow = deque(csv.reader(f), 1)[0]
@@ -48,12 +48,12 @@ def _get_last_row(csv_filename):
         return lastRow
 
 """ Tweet the PRT Status
-    
+
     Formats the tweet in a user friendly way and tweets.
     (note: Only tweets first sentence of data[message].)
 """
 def tweetStatus(data):
-    
+
     Twitter = Twython(
         consumer_key,
         consumer_secret,
@@ -82,9 +82,9 @@ def tweetStatus(data):
     message_s = unicodedata.normalize('NFKD', mess).encode('ascii','ignore')                                        # Message string
     message_f = "%s%s (%s). #wvuprt #wvu #prt" %(message_s.split(".", 1)[0], e, time.ctime(int(data['timestamp']))) # Message formatted
 
-    Twitter.update_status(status=message_f)
-    #print(message_f)
-    
+    #Twitter.update_status(status=message_f)
+    print(message_f)
+
 # ********************************* START *********************************
 
 oldTimestamp = ""
