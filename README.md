@@ -1,9 +1,9 @@
 # PRT-Monitor
 Twitter bot 🤖 written in Python 🐍 that monitors WVU's PRT.
 
-Copyright 2017, Ricky Deal, All rights reserved.
 ### Dependencies
 * [Twython](https://github.com/ryanmcgrath/twython)
+
 ### Details:
 Currently, I have PRT Monitor running on a [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/) in headless mode. The scripts are triggered by [CRON](https://en.wikipedia.org/wiki/Cron) and I use a [Twitter App](https://apps.twitter.com) for the tweeting functionality. You can see PRT Monitor in action on [Twitter](https://twitter.com/PRTMonitor).
 
