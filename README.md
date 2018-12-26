@@ -1,3 +1,6 @@
+# PRT-Monitor
+Twitter bot 🤖 written in Python 🐍 that monitors WVU's PRT.
+
 #### Dependencies
 * Coffee ☕️
 * [Twython](https://github.com/ryanmcgrath/twython)
